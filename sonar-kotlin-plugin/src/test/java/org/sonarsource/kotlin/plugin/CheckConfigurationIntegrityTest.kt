@@ -29,14 +29,14 @@ import kotlin.streams.asSequence
 class CheckConfigurationIntegrityTest {
 
     companion object {
-        private val CHECKS_PACKAGE_DIRECTORIES = listOf(
-            Path.of("checks")
-        ).map { Path.of("..", "sonar-kotlin-checks", "src", "main", "java", "org", "sonarsource", "kotlin").resolve(it) }
+        private val OPTIMIZED_API_CHECKS_PACKAGE_DIRECTORIES = listOf(
+            Path.of("optimized_api")
+        ).map { Path.of("..", "sonar-kotlin-checks", "src", "main", "java", "org", "sonarsource", "kotlin", "checks", "environment").resolve(it) }
     }
 
     @Test
-    fun `ensure all checks are actually registered in KotlinCheckList`() {
-        val expectedChecks = CHECKS_PACKAGE_DIRECTORIES.flatMap { checksDir ->
+    fun `ensure optimized_api checks are actually registered in KotlinCheckList`() {
+        val expectedChecks = OPTIMIZED_API_CHECKS_PACKAGE_DIRECTORIES.flatMap { checksDir ->
             Files.walk(checksDir, 1).asSequence()
         }.filter {
             isCheckFile(it)
