@@ -24,32 +24,32 @@ import org.sonarsource.kotlin.checks.CheckTest
 import org.sonarsource.kotlin.testapi.KotlinVerifier
 
 class BleCheckTest : CheckTest(BluetoothBleCheck()) {
-     @Test
-     fun `with both Bc and Ble`() {
-         KotlinVerifier(check) {
-             this.fileName = "BothBcBleCheck.kt"
-             this.classpath = emptyList()
-             this.deps = emptyList()
-         }.verify()
-     }
+    @Test
+    fun `with both Bc and Ble`() {
+        KotlinVerifier(check) {
+            this.fileName = "BothBcBleCheck.kt"
+            this.classpath = emptyList()
+            this.deps = emptyList()
+        }.verify()
+    }
 
-     @Test
-     fun `with only Bc`() {
-         KotlinVerifier(check) {
-             this.fileName = "OnlyBcCheck.kt"
-             this.classpath = emptyList()
-             this.deps = emptyList()
-         }.verify()
-     }
+    @Test
+    fun `with only Bc`() {
+        KotlinVerifier(check) {
+            this.fileName = "OnlyBcCheck.kt"
+            this.classpath = emptyList()
+            this.deps = emptyList()
+        }.verify()
+    }
 
-     @Test
-     fun `with only Ble`() {
-         KotlinVerifier(check) {
-             this.fileName = "OnlyBleCheck.kt"
-             this.classpath = emptyList()
-             this.deps = emptyList()
-         }.verify()
-     }
+    @Test
+    fun `with only Ble`() {
+        KotlinVerifier(check) {
+            this.fileName = "OnlyBleCheck.kt"
+            this.classpath = emptyList()
+            this.deps = emptyList()
+        }.verify()
+    }
 
 }
 

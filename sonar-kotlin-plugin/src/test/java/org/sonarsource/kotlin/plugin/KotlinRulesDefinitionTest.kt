@@ -36,7 +36,7 @@ internal class KotlinRulesDefinitionTest {
         val repository = repositoryForVersion(Version.create(8, 9))
         Assertions.assertThat(repository!!.name()).isEqualTo("SonarQube")
         Assertions.assertThat(repository.language()).isEqualTo("kotlin")
-        val rule = repository.rule("S1981908")!!
+        val rule = repository.rule("EC518")!!
         Assertions.assertThat(rule.name())
             .isEqualTo("Optimized API: Bluetooth Low-Energy")
         Assertions.assertThat(rule.type()).isEqualTo(RuleType.CODE_SMELL)

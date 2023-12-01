@@ -31,21 +31,23 @@ private const val IMPORT_STR_BLE = "android.bluetooth.le"
 private const val ERROR_MESSAGE = "You are using Bluetooth. Did you take a look at the Bluetooth Low Energy API?"
 private const val GOOD_PRACTICE_MESSAGE = "Using android.bluetooth.le.* is a good practice."
 
-@Rule(key = "S1981908")
+@Rule(key = "EC518")
 class BluetoothBleCheck : AbstractCheck() {
 
     override fun visitImportList(importList: KtImportList, data: KotlinFileContext?) {
-        val bleImports: List<KtImportDirective> = importList.imports.filter { it.importPath.toString().startsWith(IMPORT_STR_BLE) }
-        val bcImports: List<KtImportDirective> = importList.imports.filter { it.importPath.toString().startsWith(IMPORT_STR_BC) }
+        val bleImports: List<KtImportDirective> =
+            importList.imports.filter { it.importPath.toString().startsWith(IMPORT_STR_BLE) }
+        val bcImports: List<KtImportDirective> =
+            importList.imports.filter { it.importPath.toString().startsWith(IMPORT_STR_BC) }
 
-        if(bleImports.isNotEmpty() || bcImports.isNotEmpty()){
-            if(bleImports.isNotEmpty()){
+        if (bleImports.isNotEmpty() || bcImports.isNotEmpty()) {
+            if (bleImports.isNotEmpty()) {
                 bleImports.forEach {
                     it.importedReference?.let { data?.reportIssue(it, GOOD_PRACTICE_MESSAGE) }
                 }
-            }else{
-                bcImports.forEach{
-                    it.importedReference?.let { data?.reportIssue(it, ERROR_MESSAGE)}
+            } else {
+                bcImports.forEach {
+                    it.importedReference?.let { data?.reportIssue(it, ERROR_MESSAGE) }
                 }
             }
         }

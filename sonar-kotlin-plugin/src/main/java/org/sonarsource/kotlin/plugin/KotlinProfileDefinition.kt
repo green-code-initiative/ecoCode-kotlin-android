@@ -26,7 +26,7 @@ import org.sonarsource.kotlin.api.common.KOTLIN_REPOSITORY_KEY
 
 class KotlinProfileDefinition : BuiltInQualityProfilesDefinition {
     companion object {
-        const val PATH_TO_JSON = "org/sonar/l10n/kotlin/rules/kotlin/Sonar_way_profile.json"
+        const val PATH_TO_JSON = "org/sonar/l10n/kotlin/rules/kotlin/Ecocode_profile.json"
     }
 
     override fun define(context: BuiltInQualityProfilesDefinition.Context) {

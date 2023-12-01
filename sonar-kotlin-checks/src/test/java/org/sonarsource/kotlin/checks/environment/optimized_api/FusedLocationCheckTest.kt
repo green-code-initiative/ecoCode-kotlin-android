@@ -25,23 +25,23 @@ import org.sonarsource.kotlin.testapi.KotlinVerifier
 
 class FusedLocationCheckTest : CheckTest(FusedLocationCheck()) {
 
-     @Test
-     fun `with import android_location`() {
-         KotlinVerifier(check) {
-             this.fileName = "OnlyAndroidLocationFusedLocationCheck.kt"
-             this.classpath = emptyList()
-             this.deps = emptyList()
-         }.verify()
-     }
+    @Test
+    fun `with import android_location`() {
+        KotlinVerifier(check) {
+            this.fileName = "OnlyAndroidLocationFusedLocationCheck.kt"
+            this.classpath = emptyList()
+            this.deps = emptyList()
+        }.verify()
+    }
 
-     @Test
-     fun `with import android_location and com_google_android_gms_location`() {
-         KotlinVerifier(check) {
-             this.fileName = "BothAndroidAndGoogleLocationFusedLocationCheck.kt"
-             this.classpath = emptyList()
-             this.deps = emptyList()
-         }.verifyNoIssue()
-     }
+    @Test
+    fun `with import android_location and com_google_android_gms_location`() {
+        KotlinVerifier(check) {
+            this.fileName = "BothAndroidAndGoogleLocationFusedLocationCheck.kt"
+            this.classpath = emptyList()
+            this.deps = emptyList()
+        }.verifyNoIssue()
+    }
 
 }
 

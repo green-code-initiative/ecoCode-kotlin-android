@@ -27,9 +27,10 @@ import org.sonarsource.kotlin.api.frontend.KotlinFileContext
 private const val WRONG_IMPORT = "android.location"
 private const val GOOD_IMPORT = "com.google.android.gms.location"
 
-private const val ERROR_MESSAGE = "Use com.google.android.gms.location instead of android.location to maximize battery life."
+private const val ERROR_MESSAGE =
+    "Use com.google.android.gms.location instead of android.location to maximize battery life."
 
-@Rule(key = "SEC517")
+@Rule(key = "EC517")
 class FusedLocationCheck : AbstractCheck() {
 
     override fun visitImportList(importList: KtImportList, data: KotlinFileContext?) {
