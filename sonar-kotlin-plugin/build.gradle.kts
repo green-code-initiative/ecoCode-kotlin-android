@@ -118,17 +118,6 @@ artifacts {
     archives(shadowJar)
 }
 
-tasks.artifactoryPublish { skip = false }
-publishing {
-    publications.withType<MavenPublication> {
-        artifact(shadowJar) {
-            classifier = null
-        }
-        artifact(sourcesJar)
-        artifact(javadocJar)
-    }
-}
-
 fun enforceJarSizeAndCheckContent(file: File, minSize: Long, maxSize: Long) {
     val size = file.length()
     if (size < minSize) {
