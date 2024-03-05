@@ -164,49 +164,5 @@ subprojects {
         from(tasks["javadoc"])
     }
 
-    publishing {
-        publications {
-            create<MavenPublication>("mavenJava") {
-                pom {
-                    name.set(projectTitle)
-                    description.set(project.description)
-                    url.set("http://www.sonarqube.org/")
-                    organization {
-                        name.set("SonarSource")
-                        url.set("http://www.sonarqube.org/")
-                    }
-                    licenses {
-                        license {
-                            name.set("GNU LPGL 3")
-                            url.set("http://www.gnu.org/licenses/lgpl.txt")
-                            distribution.set("repo")
-                        }
-                    }
-                    scm {
-                        url.set("https://github.com/SonarSource/sonar-kotlin")
-                    }
-                    developers {
-                        developer {
-                            id.set("sonarsource-team")
-                            name.set("SonarSource Team")
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    signing {
-        val signingKeyId: String? by project
-        val signingKey: String? by project
-        val signingPassword: String? by project
-        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-        setRequired {
-            val branch = System.getenv()["CIRRUS_BRANCH"] ?: ""
-            (branch == "master" || branch.matches("branch-[\\d.]+".toRegex())) &&
-                gradle.taskGraph.hasTask(":artifactoryPublish")
-        }
-        sign(publishing.publications)
-    }
 }
 
