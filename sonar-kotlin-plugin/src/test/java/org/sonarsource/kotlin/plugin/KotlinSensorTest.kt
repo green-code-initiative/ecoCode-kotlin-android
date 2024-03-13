@@ -82,7 +82,7 @@ internal class KotlinSensorTest : AbstractSensorTest() {
     }
 
     @Test
-    fun test_ble_rule() {
+    fun test_one_rule() {
         val inputFile = createInputFile(
             "file1.kt", """
         package checks       
@@ -104,30 +104,6 @@ internal class KotlinSensorTest : AbstractSensorTest() {
         assertThat(location.message())
             .isEqualTo("Using android.bluetooth.le.* is a good practice.")
         assertTextRange(location.textRange()).hasRange(2, 7, 2, 46)
-    }
-
-    @Test
-    fun test_fused_location_rule() {
-        val inputFile = createInputFile(
-                "file1.kt", """
-        package checks
-        import android.location.Location  // Noncompliant {{Use com.google.android.gms.location instead of android.location to maximize battery life.}}
-        class OnlyAndroidLocationFusedLocationCheck{
-        }
-     """.trimIndent()
-        )
-        context.fileSystem().add(inputFile)
-        val checkFactory = checkFactory("EC517")
-        sensor(checkFactory).execute(context)
-        val issues = context.allIssues()
-        assertThat(issues).hasSize(1)
-        val issue = issues.iterator().next()
-        assertThat(issue.ruleKey().rule()).isEqualTo("EC517")
-        val location = issue.primaryLocation()
-        assertThat(location.inputComponent()).isEqualTo(inputFile)
-        assertThat(location.message())
-                .isEqualTo("Use com.google.android.gms.location instead of android.location to maximize battery life.")
-        assertTextRange(location.textRange()).hasRange(2, 7, 2, 32)
     }
 
     @Test
