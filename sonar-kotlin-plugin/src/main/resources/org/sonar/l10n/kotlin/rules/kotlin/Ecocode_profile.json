@@ -1,6 +1,7 @@
 {
   "name": "ecoCode (Android)",
   "ruleKeys": [
-     "S1981908"
+    "EC518",
+    "EC517"
   ]
 }

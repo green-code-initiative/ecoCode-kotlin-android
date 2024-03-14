@@ -30,45 +30,34 @@ import org.jetbrains.kotlin.config.CommonConfigurationKeys
 import org.jetbrains.kotlin.config.LanguageVersion
 import org.jetbrains.kotlin.config.languageVersionSettings
 import org.jetbrains.kotlin.psi.KtNamedFunction
-import org.jetbrains.kotlin.resolve.BindingContext
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
-import org.junit.jupiter.api.assertThrows
 import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
 import org.sonar.api.batch.fs.InputFile
 import org.sonar.api.batch.rule.CheckFactory
 import org.sonar.api.batch.sensor.SensorContext
-import org.sonar.api.batch.sensor.cache.WriteCache
-import org.sonar.api.batch.sensor.highlighting.TypeOfText
 import org.sonar.api.batch.sensor.internal.DefaultSensorDescriptor
 import org.sonar.api.batch.sensor.internal.SensorContextTester
 import org.sonar.api.batch.sensor.issue.internal.DefaultNoSonarFilter
 import org.sonar.api.config.internal.ConfigurationBridge
 import org.sonar.api.config.internal.MapSettings
-import org.sonar.api.internal.SonarRuntimeImpl
-import org.sonar.api.measures.CoreMetrics
-import org.sonar.api.utils.Version
 import org.sonar.check.Rule
-import org.sonarsource.analyzer.commons.ProgressReport
 import org.sonarsource.kotlin.api.checks.AbstractCheck
 import org.sonarsource.kotlin.api.common.COMPILER_THREAD_COUNT_PROPERTY
 import org.sonarsource.kotlin.api.common.FAIL_FAST_PROPERTY_NAME
 import org.sonarsource.kotlin.api.common.KOTLIN_LANGUAGE_VERSION
-import org.sonarsource.kotlin.api.common.SONAR_ANDROID_DETECTED
 import org.sonarsource.kotlin.api.common.SONAR_JAVA_BINARIES
 import org.sonarsource.kotlin.api.frontend.Environment
 import org.sonarsource.kotlin.api.frontend.KotlinFileContext
 import org.sonarsource.kotlin.api.frontend.analyzeAndGetBindingContext
-import org.sonarsource.kotlin.api.sensors.AbstractKotlinSensorExecuteContext
 import org.sonarsource.kotlin.api.sensors.environment
-import org.sonarsource.kotlin.checks.BluetoothBleCheck
+import org.sonarsource.kotlin.checks.environment.optimized_api.BluetoothBleCheck
+import org.sonarsource.kotlin.checks.environment.optimized_api.FusedLocationCheck
 import org.sonarsource.kotlin.plugin.caching.contentHashKey
-import org.sonarsource.kotlin.plugin.cpd.computeCPDTokensCacheKey
 import org.sonarsource.kotlin.testapi.AbstractSensorTest
 import java.io.IOException
-import java.io.InputStream
 import java.security.MessageDigest
 import kotlin.time.ExperimentalTime
 
@@ -104,12 +93,12 @@ internal class KotlinSensorTest : AbstractSensorTest() {
      """.trimIndent()
         )
         context.fileSystem().add(inputFile)
-        val checkFactory = checkFactory("S1981908")
+        val checkFactory = checkFactory("EC518")
         sensor(checkFactory).execute(context)
         val issues = context.allIssues()
         assertThat(issues).hasSize(1)
         val issue = issues.iterator().next()
-        assertThat(issue.ruleKey().rule()).isEqualTo("S1981908")
+        assertThat(issue.ruleKey().rule()).isEqualTo("EC518")
         val location = issue.primaryLocation()
         assertThat(location.inputComponent()).isEqualTo(inputFile)
         assertThat(location.message())
@@ -243,7 +232,7 @@ internal class KotlinSensorTest : AbstractSensorTest() {
 
     private fun failFastSensorWithEnvironmentSetup(failFast: Boolean?): KotlinSensor {
         mockkStatic("org.sonarsource.kotlin.plugin.KotlinCheckListKt")
-        every { KOTLIN_CHECKS } returns listOf(BluetoothBleCheck::class.java)
+        every { KOTLIN_CHECKS } returns listOf(BluetoothBleCheck::class.java, FusedLocationCheck::class.java)
 
         context.apply {
             setSettings(MapSettings().apply {

@@ -17,38 +17,31 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonarsource.kotlin.checks
+package org.sonarsource.kotlin.checks.environment.optimized_api
 
 import org.junit.jupiter.api.Test
+import org.sonarsource.kotlin.checks.CheckTest
 import org.sonarsource.kotlin.testapi.KotlinVerifier
 
-class BleCheckTest : CheckTest(BluetoothBleCheck()) {
-     @Test
-     fun `with both Bc and Ble`() {
-         KotlinVerifier(check) {
-             this.fileName = "BothBcBleCheck.kt"
-             this.classpath = emptyList()
-             this.deps = emptyList()
-         }.verify()
-     }
+class FusedLocationCheckTest : CheckTest(FusedLocationCheck()) {
 
-     @Test
-     fun `with only Bc`() {
-         KotlinVerifier(check) {
-             this.fileName = "OnlyBcCheck.kt"
-             this.classpath = emptyList()
-             this.deps = emptyList()
-         }.verify()
-     }
+    @Test
+    fun `with import android_location`() {
+        KotlinVerifier(check) {
+            this.fileName = "OnlyAndroidLocationFusedLocationCheck.kt"
+            this.classpath = emptyList()
+            this.deps = emptyList()
+        }.verify()
+    }
 
-     @Test
-     fun `with only Ble`() {
-         KotlinVerifier(check) {
-             this.fileName = "OnlyBleCheck.kt"
-             this.classpath = emptyList()
-             this.deps = emptyList()
-         }.verify()
-     }
+    @Test
+    fun `with import android_location and com_google_android_gms_location`() {
+        KotlinVerifier(check) {
+            this.fileName = "BothAndroidAndGoogleLocationFusedLocationCheck.kt"
+            this.classpath = emptyList()
+            this.deps = emptyList()
+        }.verifyNoIssue()
+    }
 
 }
 

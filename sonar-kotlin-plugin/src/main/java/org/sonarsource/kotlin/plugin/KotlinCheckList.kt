@@ -19,8 +19,10 @@
  */
 package org.sonarsource.kotlin.plugin
 
-import org.sonarsource.kotlin.checks.*
+import org.sonarsource.kotlin.checks.environment.optimized_api.BluetoothBleCheck
+import org.sonarsource.kotlin.checks.environment.optimized_api.FusedLocationCheck
 
 val KOTLIN_CHECKS = listOf(
-    BluetoothBleCheck::class.java
+        BluetoothBleCheck::class.java,
+        FusedLocationCheck::class.java
 )

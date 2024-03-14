@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonarsource.kotlin.checks
+package org.sonarsource.kotlin.checks.environment.optimized_api
 
 import org.jetbrains.kotlin.psi.KtImportDirective
 import org.jetbrains.kotlin.psi.KtImportList
@@ -31,33 +31,23 @@ private const val IMPORT_STR_BLE = "android.bluetooth.le"
 private const val ERROR_MESSAGE = "You are using Bluetooth. Did you take a look at the Bluetooth Low Energy API?"
 private const val GOOD_PRACTICE_MESSAGE = "Using android.bluetooth.le.* is a good practice."
 
-@Rule(key = "S1981908")
+@Rule(key = "EC518")
 class BluetoothBleCheck : AbstractCheck() {
 
     override fun visitImportList(importList: KtImportList, data: KotlinFileContext?) {
-        val bleImports: ArrayList<KtImportDirective> = ArrayList()
-        val bcImports: ArrayList<KtImportDirective> = ArrayList()
-        var hasBluetoothImports = false
+        val bleImports: List<KtImportDirective> =
+            importList.imports.filter { it.importPath.toString().startsWith(IMPORT_STR_BLE) }
+        val bcImports: List<KtImportDirective> =
+            importList.imports.filter { it.importPath.toString().startsWith(IMPORT_STR_BC) }
 
-        importList.imports.forEach {
-            if(it.importPath.toString().startsWith(IMPORT_STR_BC)) {
-                hasBluetoothImports = true
-                bcImports.add(it)
-            }
-            if(it.importPath.toString().startsWith(IMPORT_STR_BLE)) {
-                hasBluetoothImports = true
-                bleImports.add(it)
-            }
-        }
-
-        if(hasBluetoothImports){
-            if(bleImports.isNotEmpty()){
+        if (bleImports.isNotEmpty() || bcImports.isNotEmpty()) {
+            if (bleImports.isNotEmpty()) {
                 bleImports.forEach {
                     it.importedReference?.let { data?.reportIssue(it, GOOD_PRACTICE_MESSAGE) }
                 }
-            }else{
-                bcImports.forEach{
-                    it.importedReference?.let { data?.reportIssue(it, ERROR_MESSAGE)}
+            } else {
+                bcImports.forEach {
+                    it.importedReference?.let { data?.reportIssue(it, ERROR_MESSAGE) }
                 }
             }
         }
