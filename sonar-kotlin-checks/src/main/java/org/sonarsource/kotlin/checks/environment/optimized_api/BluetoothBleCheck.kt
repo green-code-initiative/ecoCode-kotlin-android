@@ -25,6 +25,9 @@ import org.sonar.check.Rule
 import org.sonarsource.kotlin.api.checks.AbstractCheck
 import org.sonarsource.kotlin.api.frontend.KotlinFileContext
 
+// ble stands for "Bluetooth Low Energy"
+// bc stands for "Bluetooth Classic"
+
 private const val IMPORT_STR_BC = "android.bluetooth"
 private const val IMPORT_STR_BLE = "android.bluetooth.le"
 
@@ -40,14 +43,17 @@ class BluetoothBleCheck : AbstractCheck() {
         val bcImports: List<KtImportDirective> =
             importList.imports.filter { it.importPath.toString().startsWith(IMPORT_STR_BC) }
 
-        if (bleImports.isNotEmpty() || bcImports.isNotEmpty()) {
-            if (bleImports.isNotEmpty()) {
-                bleImports.forEach {
-                    it.importedReference?.let { data?.reportIssue(it, GOOD_PRACTICE_MESSAGE) }
+        val hasBleImports = bleImports.isNotEmpty()
+        val hasBcImports = bcImports.isNotEmpty()
+
+        if (hasBleImports || hasBcImports) {
+            if (hasBleImports) {
+                bleImports.forEach { import ->
+                    import.importedReference?.let { data?.reportIssue(it, GOOD_PRACTICE_MESSAGE) }
                 }
             } else {
-                bcImports.forEach {
-                    it.importedReference?.let { data?.reportIssue(it, ERROR_MESSAGE) }
+                bcImports.forEach { import ->
+                    import.importedReference?.let { data?.reportIssue(it, ERROR_MESSAGE) }
                 }
             }
         }
