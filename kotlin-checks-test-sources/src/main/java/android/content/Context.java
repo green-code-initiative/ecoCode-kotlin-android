@@ -2,15 +2,20 @@ package android.content;
 
 import java.io.File;
 
+import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.UserHandle;
 import net.sqlcipher.database.CursorFactory;
 import net.sqlcipher.database.DatabaseErrorHandler;
 import net.sqlcipher.database.SQLiteDatabase;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class Context {
+  @NotNull
+  public static final String CAMERA_SERVICE = "camera";
+
   public File getExternalFilesDir(String type) {
     return null;
   }
