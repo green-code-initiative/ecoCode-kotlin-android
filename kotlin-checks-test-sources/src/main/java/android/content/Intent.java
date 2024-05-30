@@ -3,12 +3,16 @@ package android.content;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.os.Bundle;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Intent {
 
   public Intent(String s) {}
+
+  public Intent(@NonNull Context context, @NotNull Class<?> cls) {}
 
   @NonNull
   public Intent putExtra(String name, boolean value) {
