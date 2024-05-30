@@ -24,6 +24,7 @@ import org.sonarsource.kotlin.checks.CheckTest
 import org.sonarsource.kotlin.testapi.KotlinVerifier
 
 class BleCheckTest : CheckTest(BluetoothBleCheck()) {
+
     @Test
     fun `with both Bc and Ble`() {
         KotlinVerifier(check) {
@@ -50,6 +51,5 @@ class BleCheckTest : CheckTest(BluetoothBleCheck()) {
             this.deps = emptyList()
         }.verify()
     }
-
 }
 

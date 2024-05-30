@@ -38,8 +38,7 @@ private const val GOOD_PRACTICE_MESSAGE = "Using android.bluetooth.le.* is a goo
 class BluetoothBleCheck : AbstractCheck() {
 
     override fun visitImportList(importList: KtImportList, data: KotlinFileContext?) {
-        val bleImports: List<KtImportDirective> =
-            importList.imports.filter { it.importPath.toString().startsWith(IMPORT_STR_BLE) }
+        val bleImports: List<KtImportDirective> = importList.imports.filter { it.importPath.toString().startsWith(IMPORT_STR_BLE) }
         val bcImports: List<KtImportDirective> =
             importList.imports.filter { it.importPath.toString().startsWith(IMPORT_STR_BC) }
 
